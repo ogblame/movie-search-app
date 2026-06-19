@@ -407,6 +407,28 @@ main {
   gap: 40px;
 }
 
+footer {
+  background-color: rgba(8, 4, 35, 1);
+  width: 100%;
+  height: 198px;
+  padding: 70px 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer__list {
+  display: flex;
+  font-family: "Acrom";
+  gap: 40px;
+  font-size: 16px;
+}
+
+.footer-link {
+  text-decoration: none;
+  color: rgba(255, 249, 249, 1);
+}
+
 @media (max-width: 1400px) {
   .hero__title {
     margin-top: 40px;
@@ -501,6 +523,15 @@ main {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
   }
+
+  .footer__list {
+    font-size: 12px;
+    gap: 15px;
+  }
+
+  footer {
+    padding: 30px 20px;
+  }
 }
 
 @media (max-width: 600px) {
@@ -572,6 +603,14 @@ main {
   .card__rating {
     font-size: 10px;
   }
+
+  footer {
+    padding: 30px 20px;
+  }
+
+  .footer__list {
+    flex-direction: column;
+  }
 }
 
 @media (max-width: 510px) {
@@ -620,5 +659,9 @@ main {
 
   .catalog__filter-buttn-wrapper {
     justify-content: center;
+  }
+
+  footer {
+    padding: 30px 20px;
   }
 }
