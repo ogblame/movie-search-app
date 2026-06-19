@@ -203,7 +203,7 @@ table {
   height: 17px;
 }
 
-.hero {
+main {
   padding: 60px;
 }
 
@@ -268,6 +268,70 @@ table {
 .hero__afisha {
   width: 100%;
   height: auto;
+}
+
+.catalog {
+  margin-top: 60px;
+}
+
+.catalog__header {
+  display: flex;
+  gap: 80px;
+}
+
+.catalog__tab {
+  font-family: "Acrom", Arial, Helvetica, sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  border: none;
+  color: #222121;
+  background: transparent;
+  cursor: pointer;
+  padding: 12px 30px;
+}
+
+.catalog__tab:hover {
+  background-color: #080423;
+  border-radius: 60px;
+  color: white;
+  transition: 0.7s;
+  padding: 12px 30px;
+}
+
+.catalog__grid {
+  display: grid;
+  margin-top: 60px;
+  gap: 20px;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+.catalog__card {
+  font-family: "Acrom", Arial, Helvetica, sans-serif;
+}
+
+.catalog-card__body {
+  display: flex;
+  gap: 80px;
+}
+
+.card__title {
+  font-size: 18px;
+  color: rgba(8, 4, 35, 1);
+  font-weight: 500;
+  margin-top: 10px;
+}
+
+.card__year {
+  font-size: 16px;
+  color: rgba(21, 21, 21, 0.28);
+  font-weight: 500;
+  margin-left: auto;
+}
+
+.card__rating {
+  color: rgba(255, 210, 51, 1);
+  font-size: 18px;
+  margin-top: 28px;
 }
 
 @media (max-width: 1200px) {
@@ -371,7 +435,7 @@ table {
 }
 
 @media (max-width: 510px) {
-  .hero {
+  main {
     padding: 30px;
   }
 
