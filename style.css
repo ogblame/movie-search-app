@@ -266,7 +266,7 @@ main {
 }
 
 .hero__afisha {
-  width: 100%;
+  width: auto;
   height: auto;
 }
 
@@ -301,17 +301,28 @@ main {
 .catalog__grid {
   display: grid;
   margin-top: 60px;
-  gap: 20px;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 40px;
+  grid-template-columns: repeat(5, 1fr);
 }
 
 .catalog__card {
   font-family: "Acrom", Arial, Helvetica, sans-serif;
+  width: 100%;
+  max-width: 315px;
+}
+
+/* .catalog__card:hover {
+  border: 2px #222121 solid;
+  border-radius: 10px;
+} */
+
+.catalog__image {
+  display: block;
+  width: 100%;
 }
 
 .catalog-card__body {
   display: flex;
-  gap: 80px;
 }
 
 .card__title {
@@ -322,6 +333,7 @@ main {
 }
 
 .card__year {
+  margin-top: 7px;
   font-size: 16px;
   color: rgba(21, 21, 21, 0.28);
   font-weight: 500;
@@ -331,7 +343,76 @@ main {
 .card__rating {
   color: rgba(255, 210, 51, 1);
   font-size: 18px;
-  margin-top: 28px;
+  margin-top: 20px;
+  margin-left: auto;
+}
+
+.catalog__filter {
+  margin-top: 100px;
+  display: flex;
+  flex-direction: column;
+  gap: 45px;
+}
+
+.catalog__filter-buttn-wrapper {
+  display: flex;
+}
+
+.catalog__filter-button {
+  display: block;
+  background-color: rgba(8, 4, 35, 1);
+  width: 283px;
+  height: 44px;
+  color: white;
+  font-family: "Acrom";
+  font-size: 18px;
+  border-radius: 60px;
+}
+
+.catalog__filter-selects {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.catalog__filter-tab {
+  display: block;
+  width: 150px;
+  height: 40px;
+  border-radius: 60px;
+  border: 1px solid rgba(21, 21, 21, 0.28);
+  padding-left: 14px;
+  padding: 10px 0px 10px 14px;
+  font-family: "Acrom";
+  font-weight: 400;
+  font-size: 16px;
+  color: rgba(122, 122, 122, 1);
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding-right: 40px;
+
+  background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 6L11 1' stroke='%23555' stroke-width='2' fill='none'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+}
+
+/* .catalog__filter-tab option {
+  padding-left: 10px;
+} */
+
+.catalog__filter-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 40px;
+}
+
+@media (max-width: 1400px) {
+  .hero__title {
+    margin-top: 40px;
+    font-size: 50px;
+    letter-spacing: 0%;
+  }
 }
 
 @media (max-width: 1200px) {
@@ -344,7 +425,7 @@ main {
   }
 
   .hero__title {
-    margin-top: 50px;
+    margin-top: 35px;
     font-size: 50px;
     letter-spacing: 0%;
   }
@@ -352,6 +433,14 @@ main {
   .hero__afisha {
     width: 100%;
     height: 425px;
+  }
+
+  .catalog__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .catalog__filter-grid {
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
@@ -391,11 +480,32 @@ main {
     width: 100%;
     height: 280px;
   }
+
+  .catalog__grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .catalog__filter-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .catalog__header {
+    gap: 20px;
+  }
+
+  .catalog__tab {
+    padding: 6px 15px;
+  }
+
+  .catalog__filter-selects {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 @media (max-width: 600px) {
   .hero {
-    padding: 30px;
+    padding: 0px;
   }
 
   .hero__content {
@@ -408,17 +518,17 @@ main {
   }
 
   .hero__attention {
-    font-size: 20px;
+    font-size: 15px;
   }
 
   .hero__title {
     margin-top: 20px;
-    font-size: 45px;
+    font-size: 30px;
     letter-spacing: 0%;
   }
 
   .hero__description {
-    font-size: 15px;
+    font-size: 12px;
   }
 
   .hero__afisha {
@@ -432,11 +542,45 @@ main {
     font-size: 12px;
     margin-top: 20px;
   }
+
+  .hero__content {
+    gap: 15px;
+  }
+
+  .catalog {
+    margin-top: 20px;
+  }
+
+  .catalog__header {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  .catalog__tab {
+    font-size: 14px;
+  }
+
+  .card__title {
+    font-size: 12px;
+  }
+
+  .card__year {
+    font-size: 10px;
+  }
+
+  .card__rating {
+    font-size: 10px;
+  }
 }
 
 @media (max-width: 510px) {
   main {
     padding: 30px;
+  }
+
+  .hero__content {
+    gap: 10px;
   }
 
   .hero__inner {
@@ -468,5 +612,13 @@ main {
     height: 35px;
     font-size: 12px;
     margin-top: 20px;
+  }
+
+  .catalog__grid {
+    margin-top: 20px;
+  }
+
+  .catalog__filter-buttn-wrapper {
+    justify-content: center;
   }
 }
