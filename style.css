@@ -319,6 +319,7 @@ main {
 .catalog__image {
   display: block;
   width: 100%;
+  border-radius: 10px;
 }
 
 .catalog-card__body {
@@ -427,6 +428,17 @@ footer {
 .footer-link {
   text-decoration: none;
   color: rgba(255, 249, 249, 1);
+}
+
+.btn-active {
+  display: block;
+  background-color: rgba(8, 4, 35, 1);
+  width: 283px;
+  height: 44px;
+  color: white;
+  font-family: "Acrom";
+  font-size: 18px;
+  border-radius: 60px;
 }
 
 @media (max-width: 1400px) {
