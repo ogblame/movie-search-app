@@ -3,50 +3,42 @@ const API_URL = "https://api.poiskkino.dev/v1.4/movie?limit=250";
 
 let moviesData = [];
 let currentTab = "popularMovies";
+let searchValue = "";
 
 const catalogHeader = document.querySelector(".catalog__header");
-let index = 0;
 const tabButtons = document.querySelectorAll(".catalog__tab");
-tabButtons[index].classList.add("btn-active");
+const input = document.getElementById("input-header");
+const firstTabButton = document.querySelectorAll(".catalog__tab")[0];
+firstTabButton.classList.add("btn-active");
 
-const inputFilterHeader = document.getElementById("input-header");
+const selects = document.querySelectorAll(".catalog__filter-tab");
 
-inputFilterHeader.addEventListener("input", (event) => {
-  const searchValue = event.target.value.toLowerCase();
-
-  const filteredMovies = moviesData.filter((movie) => {
-    return movie.alternativeName.toLowerCase().includes(searchValue);
-  });
-
-  displayMovies(filteredMovies);
+input.addEventListener("input", (event) => {
+  searchValue = event.target.value.toLowerCase();
+  renderCatalog();
 });
 
 catalogHeader.addEventListener("click", (event) => {
-  const clickedTab = event.target.dataset.type;
+  const clickedButton = event.target.closest(".catalog__tab");
 
-  if (clickedTab === "series") {
-    currentTab = "series";
+  if (clickedButton) {
     tabButtons.forEach((button) => button.classList.remove("btn-active"));
-    event.target.classList.add("btn-active");
-    const series = moviesData
-      .filter((movie) => movie.type === "tv-series")
-      .sort((a, b) => a.ageRating - b.ageRating);
-    displayMovies(series);
-  }
+    clickedButton.classList.add("btn-active");
 
-  if (clickedTab === "popularMovies") {
-    currentTab = "popularMovies";
-    tabButtons.forEach((button) => button.classList.remove("btn-active"));
-    event.target.classList.add("btn-active");
-    popularFilms(moviesData);
-  }
+    const clickedTab = clickedButton.dataset.type;
 
-  if (clickedTab === "movies") {
-    currentTab = "movies";
-    tabButtons.forEach((button) => button.classList.remove("btn-active"));
-    event.target.classList.add("btn-active");
-    const filteredMovies = moviesData.filter((movie) => movie.type === "movie");
-    displayMovies(filteredMovies);
+    if (clickedTab === "series") {
+      currentTab = "series";
+    }
+
+    if (clickedTab === "popularMovies") {
+      currentTab = "popularMovies";
+    }
+
+    if (clickedTab === "movie") {
+      currentTab = "movie";
+    }
+    renderCatalog();
   }
 });
 
@@ -64,9 +56,9 @@ async function fetchMovies(url) {
     const data = await response.json();
 
     moviesData = data.docs.filter((movie) => movie.poster);
+    renderCatalog();
     console.log(moviesData);
-
-    popularFilms(moviesData);
+    selectsFilter(moviesData);
   } catch (error) {
     console.log(error);
   }
@@ -74,11 +66,100 @@ async function fetchMovies(url) {
 
 fetchMovies(API_URL);
 
-function popularFilms(movies) {
-  const popularFilms = moviesData
-    .filter((movie) => movie.type === "movie")
-    .sort((a, b) => a.ageRating - b.ageRating);
-  displayMovies(popularFilms);
+function renderCatalog() {
+  let result = [...moviesData];
+
+  if (currentTab === "popularMovies") {
+    result = result
+      .filter((movie) => movie.type === "movie")
+      .sort((a, b) => a.ageRating - b.ageRating);
+  } else if (currentTab === "series") {
+    result = result
+      .filter((movie) => movie.type === "tv-series")
+      .sort((a, b) => a.ageRating - b.ageRating);
+  } else if (currentTab === "movie") {
+    result = result.filter((movie) => movie.type === "movie");
+  }
+
+  if (searchValue) {
+    result = result.filter((movie) => {
+      return movie.alternativeName.toLowerCase().includes(searchValue);
+    });
+  }
+
+  displayMovies(result);
+}
+
+function selectsFilter(moviesData) {
+  const years = [
+    ...new Set(
+      moviesData
+        .map((movie) => (movie.year === undefined ? 1999 : movie.year))
+        .sort((a, b) => a - b),
+    ),
+  ];
+
+  const genres = [
+    ...new Set(
+      moviesData.flatMap((movie) => movie.genres).map((movie) => movie.name),
+    ),
+  ];
+
+  const countries = [
+    ...new Set(
+      moviesData.flatMap((movie) => movie.countries).map((movie) => movie.name),
+    ),
+  ];
+
+  const rating = [
+    ...new Set(
+      moviesData
+        .map((movie) => (movie.ageRating ? movie.ageRating : 5))
+        .sort((a, b) => a - b),
+    ),
+  ];
+
+  selects.forEach((select) => {
+    if (select.dataset.filter === "year") {
+      years.forEach((year) => {
+        const option = document.createElement("option");
+        option.classList.add("catalog__select");
+        option.value = year;
+        option.textContent = year;
+        select.appendChild(option);
+      });
+    }
+
+    if (select.dataset.filter === "genre") {
+      genres.forEach((genre) => {
+        const option = document.createElement("option");
+        option.classList.add("catalog__select");
+        option.value = genre;
+        option.textContent = genre;
+        select.appendChild(option);
+      });
+    }
+
+    if (select.dataset.filter === "country") {
+      countries.forEach((country) => {
+        const option = document.createElement("option");
+        option.classList.add("catalog__select");
+        option.value = country;
+        option.textContent = country;
+        select.appendChild(option);
+      });
+    }
+
+    if (select.dataset.filter === "rating") {
+      rating.forEach((rat) => {
+        const option = document.createElement("option");
+        option.classList.add("catalog__select");
+        option.value = rat;
+        option.textContent = rat;
+        select.appendChild(option);
+      });
+    }
+  });
 }
 
 function displayMovies(movies) {
