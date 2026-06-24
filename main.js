@@ -5,6 +5,13 @@ let moviesData = [];
 let currentTab = "popularMovies";
 let searchValue = "";
 
+let selectedFilters = {
+  year: "",
+  genre: "",
+  country: "",
+  rating: "",
+};
+
 const catalogHeader = document.querySelector(".catalog__header");
 const tabButtons = document.querySelectorAll(".catalog__tab");
 const input = document.getElementById("input-header");
@@ -87,6 +94,34 @@ function renderCatalog() {
     });
   }
 
+  if (selectedFilters.year) {
+    result = result.filter(
+      (movie) => movie.year === Number(selectedFilters.year),
+    );
+  }
+
+  if (selectedFilters.rating) {
+    result = result.filter(
+      (movie) => movie.ageRating === Number(selectedFilters.rating),
+    );
+  }
+
+  if (selectedFilters.country) {
+    result = result.filter((movie) => {
+      return movie.countries.some((country) => {
+        return country.name === selectedFilters.country;
+      });
+    });
+  }
+
+  if (selectedFilters.genre) {
+    result = result.filter((movie) => {
+      return movie.genres.some((genre) => {
+        return genre.name === selectedFilters.genre;
+      });
+    });
+  }
+
   displayMovies(result);
 }
 
@@ -160,14 +195,24 @@ function selectsFilter(moviesData) {
       });
     }
   });
-}
 
+  selects.forEach((select) => {
+    select.addEventListener("change", (event) => {
+      if (event.target.value === "Все") {
+        selectedFilters[event.target.dataset.filter] = "";
+      } else {
+        selectedFilters[event.target.dataset.filter] = event.target.value;
+      }
+      renderCatalog();
+    });
+  });
+}
 function displayMovies(movies) {
   const catalogGrid = document.querySelector(".catalog__grid");
   const catalogFilter = document.querySelector(".catalog__filter-grid");
   catalogGrid.innerHTML = "";
   catalogFilter.innerHTML = "";
-  const slicedMovies = movies.slice(0, 15);
+  const slicedMovies = movies.slice(0, 20);
 
   slicedMovies.forEach((movie, index) => {
     const rating = movie.rating?.imdb ?? 8;
