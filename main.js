@@ -54,6 +54,12 @@ catalogHeader.addEventListener("click", (event) => {
   }
 });
 
+function errorMessage(message) {
+  catalog.forEach((item) => {
+    item.innerHTML = `Ошибка API: ${message}`;
+  });
+}
+
 async function fetchMovies(url) {
   try {
     const response = await fetch(url, {
@@ -65,6 +71,11 @@ async function fetchMovies(url) {
       },
     });
 
+    if (!response.ok) {
+      throw new Error(`Ошибка API ${response.status}`);
+      errorMessage;
+    }
+
     const data = await response.json();
 
     moviesData = data.docs.filter((movie) => movie.poster);
@@ -72,6 +83,7 @@ async function fetchMovies(url) {
     selectsFilter(moviesData);
   } catch (error) {
     console.log(error);
+    errorMessage(error);
   }
 }
 
@@ -284,6 +296,7 @@ function openModal(movie) {
   const poster = movie.poster?.previewUrl ?? "/photo/Карточка фильма.png";
   const description = movie.description ?? "Описание отсутствует";
   const rating = movie.ageRating ?? "12";
+  const year = movie.year ?? "1821";
 
   modalBody.innerHTML = `
 
@@ -321,7 +334,7 @@ function openModal(movie) {
 
        <div class="movie-info__row">
           <dt>Год</dt>
-          <dd>${movie.year}</dd>
+          <dd>${year}</dd>
       </div>
 
     </dl>

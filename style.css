@@ -309,6 +309,7 @@ main {
   font-family: "Acrom", Arial, Helvetica, sans-serif;
   width: 100%;
   max-width: 315px;
+  height: auto;
 }
 
 .catalog-card:hover {
@@ -453,9 +454,9 @@ footer {
 
 .modal-content {
   background-color: #ffffff;
-  margin: 10% auto;
+  margin: 7% auto;
   padding: 15px;
-  max-width: 700px;
+  max-width: 800px;
 
   border-radius: 10px;
 }
@@ -633,6 +634,13 @@ strong {
   footer {
     padding: 30px 20px;
   }
+
+  .btn-active {
+    font-size: 12px;
+  }
+
+  .catalog__tab {
+  }
 }
 
 @media (max-width: 600px) {
@@ -712,6 +720,10 @@ strong {
   .footer__list {
     flex-direction: column;
   }
+
+  .catalog__tab {
+    margin: 0 auto;
+  }
 }
 
 @media (max-width: 510px) {
@@ -764,5 +776,9 @@ strong {
 
   footer {
     padding: 30px 20px;
+  }
+
+  .catalog__tab {
+    margin: 0 auto;
   }
 }
