@@ -20,6 +20,11 @@ firstTabButton.classList.add("btn-active");
 
 const selects = document.querySelectorAll(".catalog__filter-tab");
 
+const catalog = document.querySelectorAll(".catalog");
+
+const modal = document.getElementById("modal");
+const modalBody = document.getElementById("modalBody");
+
 input.addEventListener("input", (event) => {
   searchValue = event.target.value.toLowerCase();
   renderCatalog();
@@ -64,7 +69,6 @@ async function fetchMovies(url) {
 
     moviesData = data.docs.filter((movie) => movie.poster);
     renderCatalog();
-    console.log(moviesData);
     selectsFilter(moviesData);
   } catch (error) {
     console.log(error);
@@ -75,6 +79,7 @@ fetchMovies(API_URL);
 
 function renderCatalog() {
   let result = [...moviesData];
+  console.log(result);
 
   if (currentTab === "popularMovies") {
     result = result
@@ -85,13 +90,25 @@ function renderCatalog() {
       .filter((movie) => movie.type === "tv-series")
       .sort((a, b) => a.ageRating - b.ageRating);
   } else if (currentTab === "movie") {
-    result = result.filter((movie) => movie.type === "movie");
+    console.log("movie");
+    result = result
+      .filter((movie) => movie.type === "movie")
+      .sort((a, b) => Math.random() - 0.5);
   }
 
+  const sectionHero = document.querySelector(".hero");
+  const catalog = document.querySelector(".catalog");
+
   if (searchValue) {
+    sectionHero.style.display = "none";
+    catalog.style.marginTop = "0px";
+
     result = result.filter((movie) => {
       return movie.alternativeName.toLowerCase().includes(searchValue);
     });
+  } else {
+    sectionHero.style.display = "block";
+    catalog.style.marginTop = "60px";
   }
 
   if (selectedFilters.year) {
@@ -220,6 +237,8 @@ function displayMovies(movies) {
     const poster = movie.poster?.previewUrl ?? "/photo/Карточка фильма.png";
 
     const articleEl = document.createElement("article");
+    articleEl.classList.add("catalog-card");
+    articleEl.dataset.id = `${movie.id}`;
     articleEl.innerHTML = `
     <img
     class="catalog__image"
@@ -242,3 +261,90 @@ function displayMovies(movies) {
     }
   });
 }
+
+catalog.forEach((catalogItem) =>
+  catalogItem.addEventListener("click", (event) => {
+    const card = event.target.closest("article");
+    if (!card) return;
+    const idCard = Number(card.dataset.id);
+    const movie = moviesData.find((movie) => movie.id === idCard);
+    console.log(movie);
+    openModal(movie);
+  }),
+);
+
+function openModal(movie) {
+  let genres = movie.genres.flatMap((genre) => genre.name);
+  if (genres.length > 2) {
+    genres.length = 2;
+  }
+  genres = genres.join(", ");
+  console.log(genres);
+  const countries = movie.countries.flatMap((country) => country.name);
+  const poster = movie.poster?.previewUrl ?? "/photo/Карточка фильма.png";
+  const description = movie.description ?? "Описание отсутствует";
+  const rating = movie.ageRating ?? "12";
+
+  modalBody.innerHTML = `
+
+  <div>
+    <img
+      src="${poster}"
+      alt="Фото карточки фильма">
+  </div>
+
+  <div class="modal-window">
+    <div class="modal_main">
+      <h3 class="title-modal">${movie.alternativeName}</h3>
+      <span class="rating-modal">Рейтинг: ${rating}</span>
+    </div>
+
+    <div class="modal_decsription">
+      <p><strong style="font-weight: bold;">Описание фильма:</strong> </br>${description}</p>
+    </div>
+
+    <div class="modal-info-block">
+
+    <h4 style="font-weight: bold;">О фильме</h4>
+
+    <dl class="modal-info">
+
+        <div class="movie-info__row">
+          <dt>Жанр</dt>
+          <dd>${genres}</dd>
+      </div>
+
+       <div class="movie-info__row">
+          <dt>Страна</dt>
+          <dd>${countries}</dd>
+      </div>
+
+       <div class="movie-info__row">
+          <dt>Год</dt>
+          <dd>${movie.year}</dd>
+      </div>
+
+    </dl>
+
+    </div>
+    
+  </div>
+
+  
+  `;
+
+  modal.style.display = "block";
+}
+
+const closeModal = document.getElementById("closeModal");
+
+closeModal.addEventListener("click", (event) => {
+  console.log(event.target);
+  modal.style.display = "none";
+});
+
+window.addEventListener("click", (event) => {
+  if (event.target === modal) {
+    modal.style.display = "none";
+  }
+});

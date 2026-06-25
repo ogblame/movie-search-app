@@ -45,7 +45,7 @@
           </div>
         </div>
       </section>
-      <section class="catalog">
+      <section class="section-catalog">
         <div class="catalog__header">
           <button class="catalog__tab" data-type="popularMovies">
             Популярные фильмы
@@ -53,13 +53,13 @@
           <button class="catalog__tab" data-type="series">
             Популярные сериалы
           </button>
-          <button class="catalog__tab" data-type="movies">
+          <button class="catalog__tab" data-type="movie">
             Подборка фильмов
           </button>
         </div>
-        <div class="catalog__grid"></div>
+        <div class="catalog catalog__grid"></div>
       </section>
-      <section class="catalog__filter">
+      <section class="catalog catalog__filter">
         <div class="catalog__filter-buttn-wrapper">
           <button class="catalog__filter-button">Фильмы по категориям</button>
         </div>
@@ -116,5 +116,14 @@
         </ul>
       </nav>
     </footer>
+
+    <!-- HTML для модального окна -->
+    <div id="modal" class="modal">
+      <div class="modal-content">
+        <div id="modalBody">
+          <span id="closeModal" class="modal-close">&times;</span>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
