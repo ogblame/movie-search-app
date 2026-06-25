@@ -91,7 +91,6 @@ fetchMovies(API_URL);
 
 function renderCatalog() {
   let result = [...moviesData];
-  console.log(result);
 
   if (currentTab === "popularMovies") {
     result = result
@@ -242,6 +241,11 @@ function displayMovies(movies) {
   catalogGrid.innerHTML = "";
   catalogFilter.innerHTML = "";
   const slicedMovies = movies.slice(0, 20);
+
+  if (movies.length === 0) {
+    catalogGrid.innerHTML = "Фильмы не найдены";
+    catalogFilter.innerHTML = "Фильмы не найдены";
+  }
 
   slicedMovies.forEach((movie, index) => {
     const rating = movie.rating?.imdb ?? 8;
